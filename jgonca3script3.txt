@@ -1,0 +1,55 @@
+-- Script 3
+
+-- use the correct databse
+USE jgonca3assign2db;
+
+-- Query 1
+SELECT description FROM product;
+
+-- Query 2
+SELECT DISTINCT city FROM customer;
+
+-- Query 3
+SELECT * FROM agent ORDER BY city;
+
+-- Query 4
+SELECT firstname,lastname FROM customer WHERE city = "Springfield";
+
+-- Query 5
+SELECT lastname FROM customer WHERE agentID = 11;
+
+-- Query 6
+SELECT description FROM product WHERE description LIKE "%pad%" OR description LIKE "%Pad%";
+
+-- Query 7   
+SELECT customer.lastname, product.description, purchase.quantity FROM customer, product, purchase WHERE customer.customerID = purchase.customerID AND product.productID = purchase.productID;
+
+-- Query 8
+SELECT SUM(quantity) AS "Homer's Total Purchases" FROM purchase WHERE customerID IN (SELECT customerID FROM customer WHERE firstname = "Homer");
+
+-- Query 9 
+SELECT firstname, lastname, SUM(quantity) AS "Total purchased" FROM customer INNER JOIN purchase ON customer.customerID = purchase.customerID GROUP BY purchase.customerID;
+
+-- Query 10
+SELECT description, quantity FROM product WHERE productID NOT IN (SELECT productID FROM purchase);
+
+-- Query 11 
+SELECT description, quantity FROM product WHERE productID NOT IN (SELECT productID FROM purchase WHERE customerID IN (SELECT customerID FROM customer WHERE firstname = "Fred"));
+
+-- Query 12
+SELECT agent.firstname, agent.lastname, customer.firstname, customer.lastname FROM agent, customer WHERE agent.city = customer.city;
+
+-- Query 13
+SELECT SUM(quantity) AS "Number of knee pads purchased" FROM purchase WHERE productID = 78;
+
+-- Query 14
+SELECT description FROM product WHERE productID IN (SELECT productID FROM purchase WHERE quantity > 3);
+
+-- Query 15
+SELECT agent.firstname, agent.lastname FROM agent WHERE agentID IN  (SELECT agentID FROM customer WHERE customerID IN (SELECT customerID FROM purchase WHERE productID = 78));
+
+
+
+
+
+

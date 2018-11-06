@@ -1,0 +1,66 @@
+--------------
+SHOW databases
+--------------
+
+Database
+information_schema
+jgonca3assign2db
+mysql
+performance_schema
+--------------
+DROP DATABASE IF EXISTS jgonca3assign2db
+--------------
+
+--------------
+CREATE DATABASE jgonca3assign2db
+--------------
+
+--------------
+GRANT USAGE ON *.* TO 'ta'@'localhost'
+--------------
+
+--------------
+DROP USER 'ta'@'localhost'
+--------------
+
+--------------
+CREATE USER 'ta'@'localhost' IDENTIFIED BY 'cs3319'
+--------------
+
+--------------
+GRANT ALL PRIVILEGES ON jgonca3assign2db.* TO 'ta'@'localhost'
+--------------
+
+--------------
+FLUSH PRIVILEGES
+--------------
+
+--------------
+SHOW TABLES
+--------------
+
+--------------
+CREATE TABLE product (productID VARCHAR(2) NOT NULL, description VARCHAR(20), cost FLOAT, quantity INT, PRIMARY KEY (productID))
+--------------
+
+--------------
+CREATE TABLE agent (agentID VARCHAR(2) NOT NULL, firstname VARCHAR(30), lastname VARCHAR(30),  city VARCHAR(15), commiss_percent INT, PRIMARY KEY (agentID))
+--------------
+
+--------------
+CREATE TABLE customer (customerID VARCHAR(2) NOT NULL, firstname VARCHAR(30), lastname VARCHAR(30), city VARCHAR(15), phone VARCHAR(8), agentID VARCHAR(2) NOT NULL, FOREIGN KEY (agentID) REFERENCES agent(agentID), PRIMARY KEY (customerID))
+--------------
+
+--------------
+CREATE TABLE purchase (customerID VARCHAR(2) NOT NULL, productID VARCHAR(2) NOT NULL, quantity INT, FOREIGN KEY (customerID) REFERENCES customer(customerID), FOREIGN KEY (productID) REFERENCES product(productID))
+--------------
+
+--------------
+SHOW TABLES
+--------------
+
+Tables_in_jgonca3assign2db
+agent
+customer
+product
+purchase

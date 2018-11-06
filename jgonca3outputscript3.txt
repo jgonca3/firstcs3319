@@ -1,0 +1,135 @@
+--------------
+SELECT description FROM product
+--------------
+
+description
+Bike
+Socks
+Gloves
+Elbow pads
+Knee Pads
+Roller Blades
+Helmet
+--------------
+SELECT DISTINCT city FROM customer
+--------------
+
+city
+Boston
+Springfield
+Kypto
+Providence
+--------------
+SELECT * FROM agent ORDER BY city
+--------------
+
+agentID	firstname	lastname	city	commiss_percent
+33	David	Letterman	Bedrock	100
+11	Regis	Philbin	Boston	33
+13	Jacob	Goncalves	London	100
+22	Courtney	Cox	New York	25
+12	Rosie	Cox	Ottawa	50
+66	Rosie	ODonnell	Ottawa	100
+99	Hugh	Grant	Springfield	16
+--------------
+SELECT firstname,lastname FROM customer WHERE city = "Springfield"
+--------------
+
+firstname	lastname
+Monty	Burns
+Homer	Simpson
+Sideshow	Bob
+--------------
+SELECT lastname FROM customer WHERE agentID = 11
+--------------
+
+lastname
+Rubble
+Flinstone
+--------------
+SELECT description FROM product WHERE description LIKE "%pad%" OR description LIKE "%Pad%"
+--------------
+
+description
+Elbow pads
+Knee Pads
+--------------
+SELECT customer.lastname, product.description, purchase.quantity FROM customer, product, purchase WHERE customer.customerID = purchase.customerID AND product.productID = purchase.productID
+--------------
+
+lastname	description	quantity
+Griffens	Elbow pads	19
+Flinstone	Elbow pads	2
+Flinstone	Knee Pads	2
+Simpson	Helmet	20
+Simpson	Socks	14
+Simpson	Elbow pads	10
+Bob	Helmet	5
+Bob	Socks	5
+Bob	Knee Pads	5
+Bob	Elbow pads	5
+--------------
+SELECT SUM(quantity) AS "Homer's Total Purchases" FROM purchase WHERE customerID IN (SELECT customerID FROM customer WHERE firstname = "Homer")
+--------------
+
+Homer's Total Purchases
+44
+--------------
+SELECT firstname, lastname, SUM(quantity) AS "Total purchased" FROM customer INNER JOIN purchase ON customer.customerID = purchase.customerID GROUP BY purchase.customerID
+--------------
+
+firstname	lastname	Total purchased
+Petter	Griffens	19
+Fred	Flinstone	4
+Homer	Simpson	44
+Sideshow	Bob	20
+--------------
+SELECT description, quantity FROM product WHERE productID NOT IN (SELECT productID FROM purchase)
+--------------
+
+description	quantity
+Bike	200
+Gloves	120
+Roller Blades	89
+--------------
+SELECT description, quantity FROM product WHERE productID NOT IN (SELECT productID FROM purchase WHERE customerID IN (SELECT customerID FROM customer WHERE firstname = "Fred"))
+--------------
+
+description	quantity
+Bike	200
+Socks	100
+Gloves	120
+Roller Blades	89
+Helmet	30
+--------------
+SELECT agent.firstname, agent.lastname, customer.firstname, customer.lastname FROM agent, customer WHERE agent.city = customer.city
+--------------
+
+firstname	lastname	firstname	lastname
+Regis	Philbin	Barney	Rubble
+Hugh	Grant	Monty	Burns
+Regis	Philbin	Fred	Flinstone
+Hugh	Grant	Homer	Simpson
+Hugh	Grant	Sideshow	Bob
+--------------
+SELECT SUM(quantity) AS "Number of knee pads purchased" FROM purchase WHERE productID = 78
+--------------
+
+Number of knee pads purchased
+7
+--------------
+SELECT description FROM product WHERE productID IN (SELECT productID FROM purchase WHERE quantity > 3)
+--------------
+
+description
+Socks
+Elbow pads
+Knee Pads
+Helmet
+--------------
+SELECT agent.firstname, agent.lastname FROM agent WHERE agentID IN  (SELECT agentID FROM customer WHERE customerID IN (SELECT customerID FROM purchase WHERE productID = 78))
+--------------
+
+firstname	lastname
+Regis	Philbin
+Rosie	Cox

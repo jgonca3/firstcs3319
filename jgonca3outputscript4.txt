@@ -1,0 +1,123 @@
+ERROR 1451 (23000) at line 26: Cannot delete or update a parent row: a foreign key constraint fails (`jgonca3assign2db`.`customer`, CONSTRAINT `customer_ibfk_1` FOREIGN KEY (`agentID`) REFERENCES `agent` (`agentID`))
+--------------
+SELECT * FROM product
+--------------
+
+productID	description	cost	quantity
+11	Bike	150	200
+12	Socks	2	100
+49	Gloves	15	120
+66	Elbow pads	14.25	120
+78	Knee Pads	12.15	70
+88	Roller Blades	75	89
+99	Helmet	29	30
+--------------
+SELECT * FROM agent
+--------------
+
+agentID	firstname	lastname	city	commiss_percent
+11	Regis	Philbin	Boston	33
+12	Rosie	Cox	Ottawa	50
+13	Jacob	Goncalves	London	100
+22	Courtney	Cox	New York	25
+33	David	Letterman	Bedrock	100
+66	Rosie	ODonnell	Ottawa	100
+99	Hugh	Grant	Springfield	16
+--------------
+SELECT * FROM customer
+--------------
+
+customerID	firstname	lastname	city	phone	agentID
+10	Barney	Rubble	Boston	777-1234	11
+12	Monty	Burns	Springfield	789-0000	99
+13	Wonder	Woman	Kypto	888-1234	33
+14	Petter	Griffens	Providence	987-4567	99
+15	Fred	Flinstone	Boston	777-2345	11
+21	Homer	Simpson	Springfield	686-8956	99
+31	Sideshow	Bob	Springfield	686-5555	12
+--------------
+SELECT * FROM purchase
+--------------
+
+customerID	productID	quantity
+21	99	20
+21	12	14
+21	66	10
+31	99	5
+31	12	5
+31	78	5
+31	66	5
+15	66	2
+15	78	2
+14	66	19
+--------------
+CREATE VIEW reciept AS SELECT firstname, lastname, purchase.quantity, cost, purchase.quantity * cost AS "Total_cost" FROM customer INNER JOIN (purchase INNER JOIN product ON purchase.productID = product.productID) ON customer.customerID = purchase.customerID
+--------------
+
+--------------
+SELECT * FROM reciept
+--------------
+
+firstname	lastname	quantity	cost	Total_cost
+Petter	Griffens	19	14.25	270.75
+Fred	Flinstone	2	14.25	28.5
+Fred	Flinstone	2	12.15	24.299999237060547
+Homer	Simpson	20	29	580
+Homer	Simpson	14	2	28
+Homer	Simpson	10	14.25	142.5
+Sideshow	Bob	5	29	145
+Sideshow	Bob	5	2	10
+Sideshow	Bob	5	12.15	60.74999809265137
+Sideshow	Bob	5	14.25	71.25
+--------------
+SELECT * FROM reciept WHERE Total_cost >= 100.00
+--------------
+
+firstname	lastname	quantity	cost	Total_cost
+Petter	Griffens	19	14.25	270.75
+Homer	Simpson	20	29	580
+Homer	Simpson	10	14.25	142.5
+Sideshow	Bob	5	29	145
+--------------
+SELECT * FROM product
+--------------
+
+productID	description	cost	quantity
+11	Bike	150	200
+12	Socks	2	100
+49	Gloves	15	120
+66	Elbow pads	14.25	120
+78	Knee Pads	12.15	70
+88	Roller Blades	75	89
+99	Helmet	29	30
+--------------
+DELETE FROM product WHERE description = "Gloves"
+--------------
+
+--------------
+SELECT * FROM product
+--------------
+
+productID	description	cost	quantity
+11	Bike	150	200
+12	Socks	2	100
+66	Elbow pads	14.25	120
+78	Knee Pads	12.15	70
+88	Roller Blades	75	89
+99	Helmet	29	30
+--------------
+SELECT * FROM agent
+--------------
+
+agentID	firstname	lastname	city	commiss_percent
+11	Regis	Philbin	Boston	33
+12	Rosie	Cox	Ottawa	50
+13	Jacob	Goncalves	London	100
+22	Courtney	Cox	New York	25
+33	David	Letterman	Bedrock	100
+66	Rosie	ODonnell	Ottawa	100
+99	Hugh	Grant	Springfield	16
+--------------
+DELETE FROM agent WHERE city = "Springfield"
+--------------
+

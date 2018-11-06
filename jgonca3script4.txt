@@ -1,0 +1,30 @@
+-- Script 4
+
+-- Change to correct database
+USE jgonca3assign2db;
+
+-- Show data
+SELECT * FROM product;
+SELECT * FROM agent;
+SELECT * FROM customer;
+SELECT * FROM purchase;
+
+-- Create view
+CREATE VIEW reciept AS SELECT firstname, lastname, purchase.quantity, cost, purchase.quantity * cost AS "Total_cost" FROM customer INNER JOIN (purchase INNER JOIN product ON purchase.productID = product.productID) ON customer.customerID = purchase.customerID;
+
+SELECT * FROM reciept;
+
+SELECT * FROM reciept WHERE Total_cost >= 100.00;
+
+
+-- Delete
+SELECT * FROM product;
+DELETE FROM product WHERE description = "Gloves";
+SELECT * FROM product;
+
+SELECT * FROM agent;
+DELETE FROM agent WHERE city = "Springfield"; --The rows were not deleted because it the agentID is a foreign key in the customer table, the agentID in that table corresponds the agent in charge of that customer and therfore the agentID cannot be deleted or not exist in the agent table
+SELECT * FROM agent;
+
+
+
